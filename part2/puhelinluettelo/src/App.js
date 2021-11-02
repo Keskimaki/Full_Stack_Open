@@ -31,7 +31,7 @@ const Delete = ( {value} ) => {
   const buttonClick = () => {
     if (window.confirm(`Delete ${value.name}?`)) {
       dataService.deleteData(value.id)
-      window.location.reload()
+      setTimeout(() => {window.location.reload()}, 1000)
     }
 
   }
