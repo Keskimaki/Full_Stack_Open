@@ -63,7 +63,7 @@ const App = () => {
 
   const addName = (event) => {
     event.preventDefault()
-    let newPerson = { name : newName, number: newNumber }
+    let newPerson = { name : newName, number: (newNumber) }
 
     if (persons.some(person => person.name === newName)) {
       if (window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`)) {
