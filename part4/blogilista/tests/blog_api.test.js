@@ -48,6 +48,19 @@ test('if no likes value then likes equals zero', async () => {
   expect(response.body[6].likes).toBe(0)
 })
 
+test('new post has to include title and url', async () => {
+  const newBlog = variables.newBlog[0]
+  delete newBlog.title; delete newBlog.url;
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400)
+  
+    const response = await api.get('/api/blogs')
+    expect(response.body).toHaveLength(6)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
