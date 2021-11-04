@@ -22,15 +22,30 @@ test('returns correct amount of JSON blogs', async () => {
 
 test('identifying field is called id', async () => {
   const response = await api.get('/api/blogs')
-  /*const blogIds = response.body.map(blog => blog.id)
-  let correct = null
-  if (blogIds.some(id => id === undefined)) {
-    correct = false
-  } else {
-    correct = true
-  }
-  expect(correct).toBe(true)*/
   expect(response.body[0].id).toBeDefined()
+})
+
+test('new blog can be added with POST', async () => {
+  await api
+    .post('/api/blogs')
+    .send(variables.newBlog[0])
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const response = await api.get('/api/blogs')
+  expect(response.body).toHaveLength(7)
+})
+
+test('if no likes value then likes equals zero', async () => {
+  const newBlog = variables.newBlog[0]
+  delete newBlog.likes
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+
+  const response = await api.get('/api/blogs')
+  expect(response.body[6].likes).toBe(0)
 })
 
 afterAll(() => {

@@ -60,7 +60,17 @@ let blogs = [
   }  
 ]
 
+let newBlog = [
+  {
+    title: "Application testing", 
+    author: "Tester", 
+    url: "placeholder.com", 
+    likes: 1 
+  }
+]
+
 module.exports = {
   listWithOneBlog,
-  blogs
+  blogs,
+  newBlog
 }
