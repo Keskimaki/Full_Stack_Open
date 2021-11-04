@@ -10,8 +10,20 @@ const favoriteBlog = blogs => {
     : null
 }
 
+const mostBlogs = blogs => {
+  const authorAmount = blogs
+    .map(blog => blog.author)
+      .reduce((acc, curr) => (acc[curr] = ++acc[curr] || 1, acc), {})
+  const blogAuthor = Object.keys(authorAmount)
+  const index = blogAuthor.length - 1
+  return blogAuthor[index] 
+    ? { author: blogAuthor[index], blogs: Math.max(...Object.values(authorAmount)) }
+    : null
+}
+
 module.exports = {
   dummy,
   totalLikes,
-  favoriteBlog
+  favoriteBlog,
+  mostBlogs
 }
