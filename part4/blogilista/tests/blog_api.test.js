@@ -61,6 +61,15 @@ test('new post has to include title and url', async () => {
     expect(response.body).toHaveLength(6)
 })
 
+test('blog can be deleted', async () => {
+  await api
+    .delete('/api/blogs/5a422aa71b54a676234d17f8')
+    .expect(204)
+
+  const response = await api.get('/api/blogs')
+  expect(response.body).toHaveLength(5)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
