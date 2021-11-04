@@ -37,8 +37,7 @@ test('new blog can be added with POST', async () => {
 })
 
 test('if no likes value then likes equals zero', async () => {
-  const newBlog = variables.newBlog[0]
-  delete newBlog.likes
+  const newBlog = { title: "Application testing", author: "Tester", url: "placeholder.com" }
 
   await api
     .post('/api/blogs')
@@ -49,16 +48,15 @@ test('if no likes value then likes equals zero', async () => {
 })
 
 test('new post has to include title and url', async () => {
-  const newBlog = variables.newBlog[0]
-  delete newBlog.title; delete newBlog.url;
+  const newBlog = { url: "placeholder.com", likes: 1 }
 
   await api
     .post('/api/blogs')
     .send(newBlog)
     .expect(400)
   
-    const response = await api.get('/api/blogs')
-    expect(response.body).toHaveLength(6)
+  const response = await api.get('/api/blogs')
+  expect(response.body).toHaveLength(6)
 })
 
 test('blog can be deleted', async () => {
@@ -68,6 +66,18 @@ test('blog can be deleted', async () => {
 
   const response = await api.get('/api/blogs')
   expect(response.body).toHaveLength(5)
+})
+
+test('blog can be modified', async () => {
+  const modifiedBlog = { title: "Go To Statement Considered Harmful", author: "Edsger W. Dijkstra", url: "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html", likes: 99 }
+
+  await api
+    .put('/api/blogs/5a422aa71b54a676234d17f8')
+    .send(modifiedBlog)
+    .expect(204)
+  
+  const response = await api.get('/api/blogs')
+  expect(response.body[1].likes).toBe(99)
 })
 
 afterAll(() => {
