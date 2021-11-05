@@ -81,7 +81,7 @@ let users = [
       username: "user",
       name: "Testy Tester",
       __v: 0
-  }
+  },
 ]
 
 module.exports = {
