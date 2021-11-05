@@ -60,9 +60,23 @@ let blogs = [
   }  
 ]
 
-let newBlog = {title: "Application testing", author: "Tester", url: "placeholder.com", likes: 1 }
+let users = [
+  {
+      _id: "6184eac246653fb86011ac8d",
+      username: "root",
+      name: "Testy Tester",
+      __v: 0
+  },
+  {
+      _id: "6184edd9151ab3c8f6a21f44",
+      username: "user",
+      name: "Testy Tester",
+      __v: 0
+  },
+]
 
 module.exports = {
   listWithOneBlog,
-  blogs
+  blogs,
+  users
 }

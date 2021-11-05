@@ -26,9 +26,11 @@ test('identifying field is called id', async () => {
 })
 
 test('new blog can be added with POST', async () => {
+  const newBlog = { title: "Application testing", author: "Tester", url: "placeholder.com" }
+
   await api
     .post('/api/blogs')
-    .send(variables.newBlog[0])
+    .send(newBlog)
     .expect(201)
     .expect('Content-Type', /application\/json/)
 
