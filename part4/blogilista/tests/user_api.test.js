@@ -17,7 +17,7 @@ beforeEach(async () => {
 
 test('api returns list of users', async () => {
   const response = await api.get('/api/users')
-  expect(response.body).toEqual([{"id": "6184eac246653fb86011ac8d", "name": "Testy Tester", "username": "root"}, {"id": "6184edd9151ab3c8f6a21f44", "name": "Testy Tester", "username": "user"}])
+  expect(response.body.length).toBe(2)
 })
 
 test('new user can be added', async () => {
