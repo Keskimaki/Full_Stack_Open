@@ -1,7 +1,7 @@
-import React from "react"
+import React from 'react'
 import PropTypes from 'prop-types'
 
-const Logout = ({ user, handleLogout}) => (
+const Logout = ({ user, handleLogout }) => (
   <p>
     <>{user.name ? user.name : user.username} logged in </>
     <button onClick={handleLogout}>logout</button>

@@ -13,7 +13,7 @@ const Blog = ({ blog, user, setNotification, blogs, setBlogs }) => {
     marginBottom: 5
   }
 
-  const showRemoveButton = { display: blog.user.username === user.username ? '' : 'none'}
+  const showRemoveButton = { display: blog.user.username === user.username ? '' : 'none' }
 
   const toggleDetails = () => {
     setDetails(!details)
@@ -31,9 +31,9 @@ const Blog = ({ blog, user, setNotification, blogs, setBlogs }) => {
       setBlogs(blogs.filter(element => element.id !== blog.id))
       setNotification(`removed ${blog.title}`)
       setTimeout(() => {
-      setNotification(null)}, 2000)
+        setNotification(null)}, 2000)
       return request
-      }
+    }
   }
 
   return (
@@ -41,7 +41,7 @@ const Blog = ({ blog, user, setNotification, blogs, setBlogs }) => {
       <div style={hideWhenVisible} onClick={toggleDetails}>
         <>{blog.title} {blog.author} </>
         <button onClick={toggleDetails}>view</button>
-      </div>  
+      </div>
       <div style={showWhenVisible} onClick={toggleDetails}>
         <>{blog.title} {blog.author} </>
         <button onClick={toggleDetails}>hide</button> <br />

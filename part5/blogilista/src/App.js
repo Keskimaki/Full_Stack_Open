@@ -18,7 +18,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -58,12 +58,12 @@ const App = () => {
       <div>
         <h2>log in to application</h2>
         <Notification notification={notification} />
-        <Login 
-        username={username} 
-        password={password} 
-        setUsername={setUsername}
-        setPassword={setPassword}
-        handleLogin={handleLogin}
+        <Login
+          username={username}
+          password={password}
+          setUsername={setUsername}
+          setPassword={setPassword}
+          handleLogin={handleLogin}
         />
       </div>
     )
@@ -72,29 +72,29 @@ const App = () => {
     <div>
       <h2>blogs</h2>
       <Notification notification={notification} />
-      <Logout 
-        user={user} 
+      <Logout
+        user={user}
         handleLogout={handleLogout} />
       <h2>create new</h2>
       <Togglable buttonLabel="create new blog" ref={createBlogRef}>
-        <CreateBlog 
-          user={user} 
+        <CreateBlog
+          user={user}
           blogs={blogs}
           setBlogs={setBlogs}
-          setNotification={setNotification} 
+          setNotification={setNotification}
           visibilityToggler={visibilityToggler} />
       </Togglable>
       {blogs
         .sort((a, b) => (
           b.likes - a.likes))
         .map(blog =>
-          <Blog key={blog.id} 
-            blog={blog} 
+          <Blog key={blog.id}
+            blog={blog}
             user={user}
-            setNotification={setNotification} 
+            setNotification={setNotification}
             blogs={blogs}
             setBlogs={setBlogs} />
-      )}
+        )}
     </div>
   )
 }
