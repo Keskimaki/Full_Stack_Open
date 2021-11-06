@@ -3,6 +3,7 @@ import Blog from './components/Blog'
 import Notification from './components/Notification'
 import Login from './components/Login'
 import Logout from './components/Logout'
+import Togglable from './components/Togglable'
 import CreateBlog from './components/CreateBlog'
 import loginService from './services/login'
 import blogService from './services/blogs'
@@ -86,19 +87,19 @@ const App = () => {
       <h2>blogs</h2>
       <Notification notification={notification} />
       <Logout 
-      user={user} 
-      handleLogout={handleLogout}
-      />
+        user={user} 
+        handleLogout={handleLogout} />
       <h2>create new</h2>
-      <CreateBlog 
-      title={title}
-      author={author}
-      urk={url}
-      setTitle={setTitle}
-      setAuthor={setAuthor}
-      setUrl={setUrl}
-      handleBlogCreation={handleBlogCreation}
-      />
+      <Togglable buttonLabel="create new blog">
+        <CreateBlog 
+          title={title}
+          author={author}
+          url={url}
+          setTitle={setTitle}
+          setAuthor={setAuthor}
+          setUrl={setUrl}
+          handleBlogCreation={handleBlogCreation} />
+      </Togglable>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
