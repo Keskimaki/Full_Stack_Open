@@ -84,8 +84,16 @@ const App = () => {
           setNotification={setNotification} 
           visibilityToggler={visibilityToggler} />
       </Togglable>
-      {blogs.sort((a, b) => (b.likes - a.likes)).map(blog =>
-        <Blog key={blog.id} blog={blog} user={user} />
+      {blogs
+        .sort((a, b) => (
+          b.likes - a.likes))
+        .map(blog =>
+          <Blog key={blog.id} 
+            blog={blog} 
+            user={user}
+            setNotification={setNotification} 
+            blogs={blogs}
+            setBlogs={setBlogs} />
       )}
     </div>
   )

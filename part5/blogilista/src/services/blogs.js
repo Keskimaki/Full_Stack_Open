@@ -20,10 +20,15 @@ const updateBlog = (token, blog) => {
     url: blog.url
   }
 
-  const result = axios.put(`${baseUrl}/${blog.id}`, newBlog, { headers: { Authorization: token }})
-  return result.then(response => response.data)
+  const request = axios.put(`${baseUrl}/${blog.id}`, newBlog, { headers: { Authorization: token }})
+  return request.then(response => response.data)
 }
 
-const blogService = { getAll, createBlog, updateBlog }
+const deleteBlog = (token, id) => {
+  const request = axios.delete(`${baseUrl}/${id}`, { headers: { Authorization: token }})
+  return request.then(response => response.data)
+}
+
+const blogService = { getAll, createBlog, updateBlog, deleteBlog }
 
 export default blogService
