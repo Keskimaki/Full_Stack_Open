@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-const Blog = ({blog}) => {
+import blogService from '../services/blogs'
+const Blog = ({ blog, user }) => {
   const [details, setDetails] = useState(false)
 
   const hideWhenVisible = { display: details ? 'none': '' }
@@ -16,6 +17,12 @@ const Blog = ({blog}) => {
     setDetails(!details)
   }
 
+  const addLike = async () => {
+    blog.likes++
+    const request = await blogService.updateBlog(`bearer ${user.token}`, blog)
+    return request
+  }
+
   return (
     <div>
       <div style={hideWhenVisible} onClick={toggleDetails}>
@@ -26,7 +33,7 @@ const Blog = ({blog}) => {
         <>{blog.title} {blog.author} </>
         <button onClick={toggleDetails}>hide</button> <br />
         {blog.url} <br />
-        {blog.likes} <button>like</button> <br />
+        {blog.likes} <button onClick={addLike}>like</button> <br />
         {blog.user.name ? blog.user.name : blog.user.username}
       </div>
     </div>

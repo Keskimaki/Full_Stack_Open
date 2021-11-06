@@ -11,6 +11,19 @@ const createBlog = (token, title, author, url) => {
   return request.then(response => response.data)
 }
 
-const blogService = { getAll, createBlog }
+const updateBlog = (token, blog) => {
+  const newBlog = {
+    user: blog.user.id,
+    likes: blog.likes,
+    author: blog.author,
+    title: blog.title,
+    url: blog.url
+  }
+
+  const result = axios.put(`${baseUrl}/${blog.id}`, newBlog, { headers: { Authorization: token }})
+  return result.then(response => response.data)
+}
+
+const blogService = { getAll, createBlog, updateBlog }
 
 export default blogService
