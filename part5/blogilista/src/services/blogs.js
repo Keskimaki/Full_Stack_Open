@@ -11,4 +11,6 @@ const createBlog = (token, title, author, url) => {
   return request.then(response => response.data)
 }
 
-export default { getAll, createBlog }
+const blogService = { getAll, createBlog }
+
+export default blogService

@@ -1,4 +1,4 @@
-import react from "react"
+//import react from "react"
 const Logout = ({ user, handleLogout}) => (
   <p>
     <>{user.name ? user.name : user.username} logged in </>

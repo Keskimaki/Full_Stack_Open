@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import Notification from './components/Notification'
 import Login from './components/Login'
 import Logout from './components/Logout'
 import CreateBlog from './components/CreateBlog'
@@ -10,7 +11,7 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [notification, setNotification] = useState(null)
   const [user, setUser] = useState(null)
 
   const [title, setTitle] = useState('')
@@ -38,9 +39,9 @@ const App = () => {
       setUser(user)
       window.localStorage.setItem('loggedBloglistUser', JSON.stringify(user))
     } catch (exception) {
-      setErrorMessage('wrong credentials')
+      setNotification('wrong credentials')
       setTimeout(() => {
-        setErrorMessage(null)}, 5000)
+        setNotification(null)}, 2000)
     }
   }
 
@@ -51,15 +52,25 @@ const App = () => {
 
   const handleBlogCreation = async (event) => {
     event.preventDefault()
-    const token = `bearer ${user.token}`
-    const blog = await blogService.createBlog(token, title, author, url)
-    setBlogs(blogs.concat(blog))
+    try {
+      const token = `bearer ${user.token}`
+      const blog = await blogService.createBlog(token, title, author, url)
+      setBlogs(blogs.concat(blog))
+      setNotification(`a new blog ${blog.title} by ${blog.author} added`)
+      setTimeout(() => {
+        setNotification(null)}, 2000)
+    } catch {
+      setNotification('fill the missing inputs')
+      setTimeout(() => {
+        setNotification(null)}, 2000)
+    }
   }
 
   if (user === null) {
     return (
       <div>
         <h2>log in to application</h2>
+        <Notification notification={notification} />
         <Login 
         username={username} 
         password={password} 
@@ -73,6 +84,7 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+      <Notification notification={notification} />
       <Logout 
       user={user} 
       handleLogout={handleLogout}
