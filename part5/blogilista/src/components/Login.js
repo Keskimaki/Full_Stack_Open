@@ -7,15 +7,13 @@ const Login = ({ username, password, setUsername, setPassword, handleLogin }) =>
       type="text"
       value={username}
       onChange={({ target }) => setUsername(target.value)}
-      />
-      <br />
+      /> <br />
       <>password </>
       <input
       type="password"
       value={password}
       onChange={({ target }) => setPassword(target.value)}
-      />
-      <br />
+      /> <br />
       <button type="submit">login</button>
     </form>
   </div>
