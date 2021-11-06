@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import Login from './components/Login'
@@ -15,10 +15,6 @@ const App = () => {
   const [notification, setNotification] = useState(null)
   const [user, setUser] = useState(null)
 
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
-
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
@@ -33,12 +29,18 @@ const App = () => {
     }
   }, [])
 
+  const createBlogRef = useRef()
+  const visibilityToggler = () => {
+    createBlogRef.current.toggleVisibility()
+  }
+
   const handleLogin = async (event) => {
     event.preventDefault()
     try {
       const user = await loginService.login(username, password)
       setUser(user)
       window.localStorage.setItem('loggedBloglistUser', JSON.stringify(user))
+
     } catch (exception) {
       setNotification('wrong credentials')
       setTimeout(() => {
@@ -49,22 +51,6 @@ const App = () => {
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBloglistUser')
     setUser(null)
-  }
-
-  const handleBlogCreation = async (event) => {
-    event.preventDefault()
-    try {
-      const token = `bearer ${user.token}`
-      const blog = await blogService.createBlog(token, title, author, url)
-      setBlogs(blogs.concat(blog))
-      setNotification(`a new blog ${blog.title} by ${blog.author} added`)
-      setTimeout(() => {
-        setNotification(null)}, 2000)
-    } catch {
-      setNotification('fill the missing inputs')
-      setTimeout(() => {
-        setNotification(null)}, 2000)
-    }
   }
 
   if (user === null) {
@@ -90,15 +76,13 @@ const App = () => {
         user={user} 
         handleLogout={handleLogout} />
       <h2>create new</h2>
-      <Togglable buttonLabel="create new blog">
+      <Togglable buttonLabel="create new blog" ref={createBlogRef}>
         <CreateBlog 
-          title={title}
-          author={author}
-          url={url}
-          setTitle={setTitle}
-          setAuthor={setAuthor}
-          setUrl={setUrl}
-          handleBlogCreation={handleBlogCreation} />
+          user={user} 
+          blogs={blogs}
+          setBlogs={setBlogs}
+          setNotification={setNotification} 
+          visibilityToggler={visibilityToggler} />
       </Togglable>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
