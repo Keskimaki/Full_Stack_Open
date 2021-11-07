@@ -7,7 +7,7 @@ const getAll = () => {
 }
 
 const createBlog = (token, title, author, url) => {
-  const request = axios.post(baseUrl, { title, author, url }, { headers: { Authorization: token }})
+  const request = axios.post(baseUrl, { title, author, url }, { headers: { Authorization: token } })
   return request.then(response => response.data)
 }
 
@@ -20,12 +20,12 @@ const updateBlog = (token, blog) => {
     url: blog.url
   }
 
-  const request = axios.put(`${baseUrl}/${blog.id}`, newBlog, { headers: { Authorization: token }})
+  const request = axios.put(`${baseUrl}/${blog.id}`, newBlog, { headers: { Authorization: token } })
   return request.then(response => response.data)
 }
 
 const deleteBlog = (token, id) => {
-  const request = axios.delete(`${baseUrl}/${id}`, { headers: { Authorization: token }})
+  const request = axios.delete(`${baseUrl}/${id}`, { headers: { Authorization: token } })
   return request.then(response => response.data)
 }
 

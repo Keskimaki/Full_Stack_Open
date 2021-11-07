@@ -1,7 +1,7 @@
-import React, { useState } from "react"
-import blogService from "../services/blogs"
+import React, { useState } from 'react'
+import blogService from '../services/blogs'
 const CreateBlog = ({ user, blogs, setBlogs, setNotification, visibilityToggler }) => {
-  
+
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
@@ -10,7 +10,6 @@ const CreateBlog = ({ user, blogs, setBlogs, setNotification, visibilityToggler 
     event.preventDefault()
     try {
       const token = `bearer ${user.token}`
-      console.log('tokeni luotu', token)
       const blog = await blogService.createBlog(token, title, author, url)
       setBlogs(blogs.concat(blog))
       setNotification(`a new blog ${blog.title} by ${blog.author} added`)
@@ -31,19 +30,19 @@ const CreateBlog = ({ user, blogs, setBlogs, setNotification, visibilityToggler 
     <div>
       <form onSubmit={handleBlogCreation}>
         <>title: </>
-        <input 
-          type="text" 
+        <input
+          type="text"
           value={title}
           onChange={({ target }) => setTitle(target.value)} /> <br />
         <>author: </>
-        <input 
-          type="text" 
+        <input
+          type="text"
           value={author}
           onChange={({ target }) => setAuthor(target.value)} /> <br />
         <>url: </>
-        <input 
+        <input
           type="text"
-          value={url} 
+          value={url}
           onChange={({ target }) => setUrl(target.value)} /> <br />
         <button type="submit">create</button>
       </form>
