@@ -31,4 +31,50 @@ describe('Blog app', function() {
       cy.get('html').should('not.contain', 'root logged in')
     })
   })
+
+  describe('When logged in', function() {
+    beforeEach(function() {
+      cy.get('#username').type('root')
+      cy.get('#password').type('salasana')
+      cy.contains('login').click()
+    })
+
+    it('A blog can be created', function() {
+      cy.contains('create new blog').click()
+      cy.get('.title').type('testblog')
+      cy.get('.author').type('Tester')
+      cy.get('.url').type('test.com')
+
+      cy.get('#create').click()
+
+      cy.contains('testblog Tester')
+      cy.contains('view')
+    })
+
+    describe('After a blog is created', function() {
+      beforeEach(function() {
+        cy.contains('create new blog').click()
+        cy.get('.title').type('testblog')
+        cy.get('.author').type('Tester')
+        cy.get('.url').type('test.com')
+
+        cy.get('#create').click()
+      })
+
+      it('A blog can be liked', function() {
+        cy.contains('view').click()
+        cy.contains('like').click()
+        cy.contains('view').click()
+        cy.get('#detailed').contains('1')
+      })
+
+      it('User can delete blogs added by them', function() {
+        cy.reload()
+        cy.contains('view').click()
+        cy.contains('remove').click()
+        cy.contains('removed testblog')
+        cy.get('html').should('not.contain', 'testblog tester')
+      })
+    })
+  })
 })

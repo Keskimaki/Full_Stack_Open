@@ -42,7 +42,7 @@ const Blog = ({ blog, user, setNotification, blogs, setBlogs }) => {
         <>{blog.title} {blog.author} </>
         <button onClick={toggleDetails}>view</button>
       </div>
-      <div style={showWhenVisible} onClick={toggleDetails}>
+      <div id="detailed" style={showWhenVisible} onClick={toggleDetails}>
         <>{blog.title} {blog.author} </>
         <button onClick={toggleDetails}>hide</button> <br />
         {blog.url} <br />

@@ -47,7 +47,7 @@ const CreateBlog = ({ user, blogs, setBlogs, setNotification, visibilityToggler 
           type="text"
           value={url}
           onChange={({ target }) => setUrl(target.value)} /> <br />
-        <button type="submit">create</button>
+        <button id="create" type="submit">create</button>
       </form>
     </div>
   )
