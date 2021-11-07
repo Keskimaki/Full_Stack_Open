@@ -75,6 +75,20 @@ describe('Blog app', function() {
         cy.contains('removed testblog')
         cy.get('html').should('not.contain', 'testblog tester')
       })
+
+      it('Multiple blogs are shown ordered by likes', function() {
+        cy.contains('create new blog').click()
+        cy.get('.title').type('second_testblog')
+        cy.get('.author').type('Tester')
+        cy.get('.url').type('second.com')
+        cy.get('#create').click()
+        cy.contains('second_testblog Tester').click()
+        cy.contains('second.com').contains('like').click()
+
+        cy.contains('second_testblog Tester').click()
+        cy.wait(1000)
+        cy.get('#detailed').contains('1')
+      })
     })
   })
 })
