@@ -31,16 +31,19 @@ const CreateBlog = ({ user, blogs, setBlogs, setNotification, visibilityToggler 
       <form onSubmit={handleBlogCreation}>
         <>title: </>
         <input
+          className="title"
           type="text"
           value={title}
           onChange={({ target }) => setTitle(target.value)} /> <br />
         <>author: </>
         <input
+          className="author"
           type="text"
           value={author}
           onChange={({ target }) => setAuthor(target.value)} /> <br />
         <>url: </>
         <input
+          className="url"
           type="text"
           value={url}
           onChange={({ target }) => setUrl(target.value)} /> <br />

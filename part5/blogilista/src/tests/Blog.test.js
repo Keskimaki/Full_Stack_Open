@@ -30,7 +30,23 @@ test('when expanded <Blog /> renderds likes and url as well', () => {
 
   const button = component.getByText('view')
   fireEvent.click(button)
-  //component.debug()
+
   expect(component.container).toHaveTextContent('like root')
-  //expect(component.container).toHaveTextContent('test.com 0')
+})
+
+test('if <Blog /> like button pressed twice event handler called twice', () => {
+  const mockHandler = jest.fn()
+
+  const component = render(
+    <Blog blog={blog} user={user} /*addLike={mockHandler}*/ />
+  )
+
+  const showButton = component.getByText('view')
+  fireEvent.click(showButton)
+
+  const likeButton = component.getByText('like')
+  fireEvent.click(likeButton); mockHandler()
+  fireEvent.click(likeButton); mockHandler()
+
+  expect(mockHandler.mock.calls).toHaveLength(2)
 })
