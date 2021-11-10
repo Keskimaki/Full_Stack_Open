@@ -10,7 +10,6 @@ const notificationReducer = (state = null, action) => {
 }
 
 export const createNotification = (notification) => {
-  console.log(notification)
   return {
     type: 'SET_NOTIFICATION',
     notification
