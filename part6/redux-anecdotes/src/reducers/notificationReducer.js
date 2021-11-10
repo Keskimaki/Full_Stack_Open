@@ -22,4 +22,13 @@ export const deleteNotification = () => {
   }
 }
 
+export const setNotification = (notification, time) => {
+  return async dispatch => {
+    dispatch({
+      type: 'SET_NOTIFICATION',
+      notification
+    })
+    setTimeout(() => {dispatch(deleteNotification())}, time * 1000)  }
+}
+
 export default notificationReducer
