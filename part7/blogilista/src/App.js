@@ -5,11 +5,13 @@ import Login from './components/Login'
 import Logout from './components/Logout'
 import Togglable from './components/Togglable'
 import CreateBlog from './components/CreateBlog'
+import User from './components/User'
 import Users from './components/Users'
 import loginService from './services/login'
 import { useDispatch, useSelector } from 'react-redux'
 import { setNotification } from './reducers/notificationReducer'
 import { initializeBlogs } from './reducers/blogsReducer'
+import { initializeUsers } from './reducers/usersReducer'
 import { loginUser, logoutUser } from './reducers/userReducer'
 import { Routes, Route, Link } from "react-router-dom"
 
@@ -23,6 +25,7 @@ const App = () => {
 
   useEffect( async () => {
     dispatch(initializeBlogs())
+    dispatch(initializeUsers())
   }, [])
 
   useEffect(() => {
@@ -95,6 +98,7 @@ const App = () => {
       <Notification />
       <Logout handleLogout={handleLogout} />
       <Routes>
+        <Route path="/users/:id" element={<User />} />
         <Route path="/users" element={<Users />} />
         <Route path="/" element={<BlogList />} />
       </Routes>
