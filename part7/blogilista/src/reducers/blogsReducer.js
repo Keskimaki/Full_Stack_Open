@@ -2,19 +2,19 @@ import blogService from '../services/blogs'
 
 const blogsReducer = (state = [], action) => {
   switch (action.type) {
-  case 'INIT':
-    return action.blogs
-  case 'NEW_BLOG':
-    return state.concat(action.blog)
-  case 'UPDATE_BLOG':
-    const blogToChange = state.find(blog => blog.id === action.blog.id)
-    return state.map(blog => 
-      blog.id !== action.blog.id ? blog : blogToChange
-    )
-  case 'REMOVE_BLOG':
-    return state.filter(blog => blog.id !== action.id)
-  default:
-    return state
+    case 'INIT':
+      return action.blogs
+    case 'NEW_BLOG':
+      return state.concat(action.blog)
+    case 'UPDATE_BLOG':
+      const blogToChange = state.find(blog => blog.id === action.blog.id)
+      return state.map(blog => 
+        blog.id !== action.blog.id ? blog : blogToChange
+      )
+    case 'REMOVE_BLOG':
+      return state.filter(blog => blog.id !== action.id)
+    default:
+      return state
   }
 }
 

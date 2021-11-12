@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-//import blogService from '../services/blogs'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setNotification } from '../reducers/notificationReducer'
 import { addBlog } from '../reducers/blogsReducer'
 
-const CreateBlog = ({ user, visibilityToggler }) => {
+const CreateBlog = ({ visibilityToggler }) => {
   const dispatch = useDispatch()
+  const user = useSelector(state => state.user)
 
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')

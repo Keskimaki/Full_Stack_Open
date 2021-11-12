@@ -1,12 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
 
-const Logout = ({ user, handleLogout }) => (
-  <p>
-    <>{user.name ? user.name : user.username} logged in </>
-    <button onClick={handleLogout}>logout</button>
-  </p>
-)
+const Logout = ({ handleLogout }) => {
+  const user = useSelector(state => state.user)
+  return (
+    <p>
+      <>{user.name ? user.name : user.username} logged in </>
+      <button onClick={handleLogout}>logout</button>
+    </p>
+  )
+}
 
 Logout.propTypes = {
   user: PropTypes.object.isRequired,

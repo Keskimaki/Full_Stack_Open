@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 //import blogService from '../services/blogs'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setNotification } from '../reducers/notificationReducer'
 import { updateBlog, removeBlog } from '../reducers/blogsReducer'
 
-const Blog = ({ blog, user, blogs, setBlogs }) => {
+const Blog = ({ blog }) => {
   const dispatch = useDispatch()
+  const user = useSelector(state => state.user)
   const [details, setDetails] = useState(false)
 
   const hideWhenVisible = { display: details ? 'none': '' }

@@ -9,13 +9,15 @@ import loginService from './services/login'
 import { useDispatch, useSelector } from 'react-redux'
 import { setNotification } from './reducers/notificationReducer'
 import { initializeBlogs } from './reducers/blogsReducer'
+import { loginUser, logoutUser } from './reducers/userReducer'
 
 const App = () => {
-  const blogs = useSelector(state => state.blogs)
   const dispatch = useDispatch()
+  const blogs = useSelector(state => state.blogs)
+  const user = useSelector(state => state.user)
+  
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null)
 
   useEffect( async () => {
     dispatch(initializeBlogs())
@@ -25,7 +27,7 @@ const App = () => {
     const loggerUserJSON = window.localStorage.getItem('loggedBloglistUser')
     if (loggerUserJSON) {
       const user = JSON.parse(loggerUserJSON)
-      setUser(user)
+      dispatch(loginUser(user))
     }
   }, [])
 
@@ -38,7 +40,7 @@ const App = () => {
     event.preventDefault()
     try {
       const user = await loginService.login(username, password)
-      setUser(user)
+      dispatch(loginUser(user))
       window.localStorage.setItem('loggedBloglistUser', JSON.stringify(user))
 
     } catch (exception) {
@@ -48,7 +50,8 @@ const App = () => {
 
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBloglistUser')
-    setUser(null)
+    dispatch(logoutUser())
+    
   }
 
   if (user === null) {
@@ -70,22 +73,16 @@ const App = () => {
     <div>
       <h2>blogs</h2>
       <Notification />
-      <Logout
-        user={user}
-        handleLogout={handleLogout} />
+      <Logout handleLogout={handleLogout} />
       <h2>create new</h2>
       <Togglable buttonLabel="create new blog" ref={createBlogRef}>
-        <CreateBlog
-          user={user}
-          visibilityToggler={visibilityToggler} />
+        <CreateBlog visibilityToggler={visibilityToggler} />
       </Togglable>
       {blogs
         .sort((a, b) => (
           b.likes - a.likes))
         .map(blog =>
-          <Blog key={blog.id}
-            blog={blog}
-            user={user} />
+          <Blog key={blog.id} blog={blog} />
         )}
     </div>
   )
