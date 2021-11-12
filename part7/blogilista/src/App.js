@@ -5,17 +5,19 @@ import Login from './components/Login'
 import Logout from './components/Logout'
 import Togglable from './components/Togglable'
 import CreateBlog from './components/CreateBlog'
+import Users from './components/Users'
 import loginService from './services/login'
 import { useDispatch, useSelector } from 'react-redux'
 import { setNotification } from './reducers/notificationReducer'
 import { initializeBlogs } from './reducers/blogsReducer'
 import { loginUser, logoutUser } from './reducers/userReducer'
+import { Routes, Route, Link } from "react-router-dom"
 
 const App = () => {
   const dispatch = useDispatch()
   const blogs = useSelector(state => state.blogs)
   const user = useSelector(state => state.user)
-  
+
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -54,6 +56,24 @@ const App = () => {
     
   }
 
+  const BlogList = () => {
+    return (
+      <div>
+        <h2>create new</h2>
+        <Togglable buttonLabel="create new blog" ref={createBlogRef}>
+          <CreateBlog visibilityToggler={visibilityToggler} />
+        </Togglable>
+        {blogs
+          .sort((a, b) => (
+            b.likes - a.likes))
+          .map(blog =>
+            <Blog key={blog.id} blog={blog} />
+          )}
+      </div>
+    )
+  }
+  
+
   if (user === null) {
     return (
       <div>
@@ -74,16 +94,10 @@ const App = () => {
       <h2>blogs</h2>
       <Notification />
       <Logout handleLogout={handleLogout} />
-      <h2>create new</h2>
-      <Togglable buttonLabel="create new blog" ref={createBlogRef}>
-        <CreateBlog visibilityToggler={visibilityToggler} />
-      </Togglable>
-      {blogs
-        .sort((a, b) => (
-          b.likes - a.likes))
-        .map(blog =>
-          <Blog key={blog.id} blog={blog} />
-        )}
+      <Routes>
+        <Route path="/users" element={<Users />} />
+        <Route path="/" element={<BlogList />} />
+      </Routes>
     </div>
   )
 }
