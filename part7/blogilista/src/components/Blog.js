@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import blogService from '../services/blogs'
-import { useDispatch/*, useSelector*/ } from 'react-redux'
+//import blogService from '../services/blogs'
+import { useDispatch } from 'react-redux'
 import { setNotification } from '../reducers/notificationReducer'
+import { updateBlog, removeBlog } from '../reducers/blogsReducer'
 
 const Blog = ({ blog, user, blogs, setBlogs }) => {
   const dispatch = useDispatch()
-  //const _blogs = useSelector(state => state.blogs)
   const [details, setDetails] = useState(false)
 
   const hideWhenVisible = { display: details ? 'none': '' }
@@ -25,17 +25,19 @@ const Blog = ({ blog, user, blogs, setBlogs }) => {
   }
 
   const addLike = async () => {
+    const token = `bearer ${user.token}`
     blog.likes++
-    const request = await blogService.updateBlog(`bearer ${user.token}`, blog)
-    return request
+    dispatch(updateBlog(token, blog))
   }
 
-  const removeBlog = async () => {
+  const handleRemoval = async () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
-      const request = await blogService.deleteBlog(`bearer ${user.token}`, blog.id)
-      setBlogs(blogs.filter(element => element.id !== blog.id))
+      const token = `bearer ${user.token}`
+      //const request = await blogService.deleteBlog(`bearer ${user.token}`, blog.id)
+      //setBlogs(blogs.filter(element => element.id !== blog.id))
+      dispatch(removeBlog(token, blog.id))
       dispatch(setNotification(`removed ${blog.title}`))
-      return request
+      //return request
     }
   }
 
@@ -51,7 +53,7 @@ const Blog = ({ blog, user, blogs, setBlogs }) => {
         {blog.url} <br />
         {blog.likes} <button onClick={addLike}>like</button> <br />
         {blog.user.name ? blog.user.name : blog.user.username} <br />
-        <button style={showRemoveButton} onClick={removeBlog}>remove</button>
+        <button style={showRemoveButton} onClick={handleRemoval}>remove</button>
       </div>
     </div>
   )

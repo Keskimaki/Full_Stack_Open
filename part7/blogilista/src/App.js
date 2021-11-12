@@ -6,23 +6,18 @@ import Logout from './components/Logout'
 import Togglable from './components/Togglable'
 import CreateBlog from './components/CreateBlog'
 import loginService from './services/login'
-import blogService from './services/blogs'
 import { useDispatch, useSelector } from 'react-redux'
 import { setNotification } from './reducers/notificationReducer'
 import { initializeBlogs } from './reducers/blogsReducer'
 
 const App = () => {
-  const _blogs = useSelector(state => state.blogs)
+  const blogs = useSelector(state => state.blogs)
   const dispatch = useDispatch()
-  const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
 
   useEffect( async () => {
-    blogService.getAll().then(blogs =>
-      setBlogs( blogs )
-    )
     dispatch(initializeBlogs())
   }, [])
 
@@ -84,15 +79,13 @@ const App = () => {
           user={user}
           visibilityToggler={visibilityToggler} />
       </Togglable>
-      {_blogs
+      {blogs
         .sort((a, b) => (
           b.likes - a.likes))
         .map(blog =>
           <Blog key={blog.id}
             blog={blog}
-            user={user}
-            blogs={blogs}
-            setBlogs={setBlogs} />
+            user={user} />
         )}
     </div>
   )
