@@ -7,18 +7,23 @@ import Togglable from './components/Togglable'
 import CreateBlog from './components/CreateBlog'
 import loginService from './services/login'
 import blogService from './services/blogs'
+import { useDispatch, useSelector } from 'react-redux'
+import { setNotification } from './reducers/notificationReducer'
+import { initializeBlogs } from './reducers/blogsReducer'
 
 const App = () => {
+  const _blogs = useSelector(state => state.blogs)
+  const dispatch = useDispatch()
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [notification, setNotification] = useState(null)
   const [user, setUser] = useState(null)
 
-  useEffect(() => {
+  useEffect( async () => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
     )
+    dispatch(initializeBlogs())
   }, [])
 
   useEffect(() => {
@@ -42,9 +47,7 @@ const App = () => {
       window.localStorage.setItem('loggedBloglistUser', JSON.stringify(user))
 
     } catch (exception) {
-      setNotification('wrong credentials')
-      setTimeout(() => {
-        setNotification(null)}, 2000)
+      dispatch(setNotification('wrong credentials'))
     }
   }
 
@@ -57,7 +60,7 @@ const App = () => {
     return (
       <div>
         <h2>log in to application</h2>
-        <Notification notification={notification} />
+        <Notification />
         <Login
           username={username}
           password={password}
@@ -71,7 +74,7 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
-      <Notification notification={notification} />
+      <Notification />
       <Logout
         user={user}
         handleLogout={handleLogout} />
@@ -79,18 +82,15 @@ const App = () => {
       <Togglable buttonLabel="create new blog" ref={createBlogRef}>
         <CreateBlog
           user={user}
-          blogs={blogs}
-          setBlogs={setBlogs}
           visibilityToggler={visibilityToggler} />
       </Togglable>
-      {blogs
+      {_blogs
         .sort((a, b) => (
           b.likes - a.likes))
         .map(blog =>
           <Blog key={blog.id}
             blog={blog}
             user={user}
-            setNotification={setNotification}
             blogs={blogs}
             setBlogs={setBlogs} />
         )}

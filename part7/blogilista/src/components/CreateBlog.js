@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import blogService from '../services/blogs'
+//import blogService from '../services/blogs'
 import { useDispatch } from 'react-redux'
 import { setNotification } from '../reducers/notificationReducer'
+import { addBlog } from '../reducers/blogsReducer'
 
-const CreateBlog = ({ user, blogs, setBlogs, visibilityToggler }) => {
+const CreateBlog = ({ user, visibilityToggler }) => {
   const dispatch = useDispatch()
 
   const [title, setTitle] = useState('')
@@ -12,24 +13,14 @@ const CreateBlog = ({ user, blogs, setBlogs, visibilityToggler }) => {
 
   const handleBlogCreation = async (event) => {
     event.preventDefault()
-    try {
-      const token = `bearer ${user.token}`
-      const blog = await blogService.createBlog(token, title, author, url)
-      setBlogs(blogs.concat(blog))
-      //setNotification(`a new blog ${blog.title} by ${blog.author} added`)
-      dispatch(setNotification(`a new blog ${blog.title} by ${blog.author} added`))
-      setTitle('')
-      setAuthor('')
-      setUrl('')
-      visibilityToggler()
-      /*setTimeout(() => {
-        dispatch(removeNotification())}, 2000)*/
-    } catch {
-      console.log('error')
-      /*setNotification('fill the missing inputs')
-      setTimeout(() => {
-        setNotification(null)}, 2000)*/
-    }
+    const token = `bearer ${user.token}`
+    dispatch(setNotification(`a new blog ${title} by ${author} added`))
+    dispatch(addBlog(token, title, author, url))
+      .catch(() => {dispatch(setNotification('fill the missing inputs'))})
+    setTitle('')
+    setAuthor('')
+    setUrl('')
+    visibilityToggler()
   }
 
   return (

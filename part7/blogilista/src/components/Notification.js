@@ -2,9 +2,9 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 
 const Notification = () => {
-  const _notification = useSelector(state => state)
+  const notification = useSelector(state => state.notification)
 
-  return <h3>{_notification}</h3>
+  return <h3>{notification}</h3>
 
   /*if (notification === null) {
     return null
