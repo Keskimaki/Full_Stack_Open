@@ -29,6 +29,14 @@ const deleteBlog = (token, id) => {
   return request.then(response => response.data)
 }
 
-const blogService = { getAll, createBlog, updateBlog, deleteBlog }
+const addComment = (blog, comment) => {
+  blog.comments = blog.comments.concat(comment)
+  delete blog.user
+  //console.log(JSON.stringify(blog))
+  const request = axios.post(`${baseUrl}/${blog.id}/comments`, blog)
+  return request.then(response => response.data)
+}
+
+const blogService = { getAll, createBlog, updateBlog, deleteBlog, addComment }
 
 export default blogService

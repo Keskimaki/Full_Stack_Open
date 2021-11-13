@@ -16,7 +16,6 @@ const Logout = ({ handleLogout }) => {
 }
 
 Logout.propTypes = {
-  user: PropTypes.object.isRequired,
   handleLogout: PropTypes.func.isRequired
 }
 

@@ -1,9 +1,10 @@
-import React from "react"
+import React, {useState} from "react"
 import { useParams } from "react-router"
 import { useDispatch, useSelector } from "react-redux"
 import { updateBlog } from "../reducers/blogsReducer"
 import { setNotification } from "../reducers/notificationReducer"
 import { removeBlog } from "../reducers/blogsReducer"
+import blogService from "../services/blogs"
 
 const DetailedBlog = () => {
   const { id } = useParams()
@@ -46,9 +47,22 @@ const DetailedBlog = () => {
 }
 
 const Comments = ({ blog }) => {
+  const [comment, setComment] = useState('')
+
+  const handleComment = (event) => {
+    event.preventDefault()
+    blogService.addComment(blog, comment)
+    setComment('')
+  }
+
   return (
     <div>
       <h3>comments</h3>
+      <input 
+        type="text"
+        value={comment}
+        onChange={({ target }) => setComment(target.value)} />
+      <button onClick={handleComment}>add a comment</button>
       <ul>
         {blog.comments.map(comment => <li key={Math.random()}>{comment}</li>)}
       </ul>
