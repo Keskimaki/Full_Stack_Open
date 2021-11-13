@@ -1,4 +1,6 @@
 import React from 'react'
+import { Table, Form, Button } from 'react-bootstrap'
+
 const Login = ({ username, password, setUsername, setPassword, handleLogin }) => (
   <div>
     <form onSubmit={handleLogin}>

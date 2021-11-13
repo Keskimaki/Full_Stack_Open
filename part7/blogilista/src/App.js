@@ -79,7 +79,7 @@ const App = () => {
 
   if (user === null) {
     return (
-      <div>
+      <div className="container">
         <h2>log in to application</h2>
         <Notification />
         <Login
@@ -93,7 +93,7 @@ const App = () => {
     )
   }
   return (
-    <div>
+    <div className="container">
       <Logout handleLogout={handleLogout} />
       <Notification />
       <h2>blog app</h2>

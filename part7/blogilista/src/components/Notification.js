@@ -1,9 +1,17 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+import { Alert } from 'react-bootstrap'
 
 const Notification = () => {
   const notification = useSelector(state => state.notification)
-  return <h3>{notification}</h3>
+  if (!notification) {
+    return null
+  }
+  return (
+    <Alert variant="primary">
+      {notification}
+    </Alert>
+  )
 }
 
 export default Notification
