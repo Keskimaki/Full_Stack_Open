@@ -63,8 +63,7 @@ const App = () => {
   const BlogList = () => {
     return (
       <div>
-        <h2>create new</h2>
-        <Togglable buttonLabel="create new blog" ref={createBlogRef}>
+        <Togglable buttonLabel="create new" ref={createBlogRef}>
           <CreateBlog visibilityToggler={visibilityToggler} />
         </Togglable>
         {blogs
@@ -95,9 +94,9 @@ const App = () => {
   }
   return (
     <div>
-      <h2>blogs</h2>
-      <Notification />
       <Logout handleLogout={handleLogout} />
+      <Notification />
+      <h2>blog app</h2>
       <Routes>
         <Route path="/blogs/:id" element={<DetailedBlog />} />
         <Route path="/users/:id" element={<User />} />
