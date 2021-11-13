@@ -32,7 +32,6 @@ const deleteBlog = (token, id) => {
 const addComment = (blog, comment) => {
   blog.comments = blog.comments.concat(comment)
   delete blog.user
-  //console.log(JSON.stringify(blog))
   const request = axios.post(`${baseUrl}/${blog.id}/comments`, blog)
   return request.then(response => response.data)
 }

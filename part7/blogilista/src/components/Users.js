@@ -18,9 +18,9 @@ const Users = () => {
       <strong>username / blogs created</strong>
       {users.map(user => 
         <div key={user.id} style={style}>
-        <Link to={`/users/${user.id}`} >
-          {user.name ? user.name : user.username} {user.blogs.length}
-        </Link> 
+          <Link to={`/users/${user.id}`} >
+            {user.name ? user.name : user.username} {user.blogs.length}
+          </Link> 
         </div>
       )}
     </div>
