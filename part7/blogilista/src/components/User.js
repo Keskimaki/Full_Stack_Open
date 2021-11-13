@@ -1,4 +1,3 @@
-import { useEffect } from "react"
 import { useParams } from "react-router"
 import { useSelector } from "react-redux"
 
@@ -6,6 +5,7 @@ const User = () => {
   const { id } = useParams()
   const users = useSelector(state => state.users)
   const user = users.filter(user => user.id === id)[0]
+  
   if (!user) {
     return null
   }

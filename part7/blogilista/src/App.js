@@ -5,6 +5,7 @@ import Login from './components/Login'
 import Logout from './components/Logout'
 import Togglable from './components/Togglable'
 import CreateBlog from './components/CreateBlog'
+import DetailedBlog from './components/DetailedBlog'
 import User from './components/User'
 import Users from './components/Users'
 import loginService from './services/login'
@@ -13,7 +14,7 @@ import { setNotification } from './reducers/notificationReducer'
 import { initializeBlogs } from './reducers/blogsReducer'
 import { initializeUsers } from './reducers/usersReducer'
 import { loginUser, logoutUser } from './reducers/userReducer'
-import { Routes, Route, Link } from "react-router-dom"
+import { Routes, Route } from "react-router-dom"
 
 const App = () => {
   const dispatch = useDispatch()
@@ -98,6 +99,7 @@ const App = () => {
       <Notification />
       <Logout handleLogout={handleLogout} />
       <Routes>
+        <Route path="/blogs/:id" element={<DetailedBlog />} />
         <Route path="/users/:id" element={<User />} />
         <Route path="/users" element={<Users />} />
         <Route path="/" element={<BlogList />} />
