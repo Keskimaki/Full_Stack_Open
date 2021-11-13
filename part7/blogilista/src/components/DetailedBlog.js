@@ -40,6 +40,18 @@ const DetailedBlog = () => {
       <button onClick={addLike}>like</button> <br />
       added by {blog.user.name || blog.user.username} <br />
       <button style={showRemoveButton} onClick={handleRemoval}>remove</button>
+      <Comments blog={blog}/>
+    </div>
+  )
+}
+
+const Comments = ({ blog }) => {
+  return (
+    <div>
+      <h3>comments</h3>
+      <ul>
+        {blog.comments.map(comment => <li key={Math.random()}>{comment}</li>)}
+      </ul>
     </div>
   )
 }
