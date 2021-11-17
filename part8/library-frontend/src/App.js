@@ -3,6 +3,7 @@ import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
 import Login from './components/Login'
+import Recommend from './components/Recommend'
 import { useApolloClient } from '@apollo/client'
 
 const App = () => {
@@ -12,7 +13,6 @@ const App = () => {
 
   useEffect(() => {
     const token = localStorage.getItem('library-user-token')
-    console.log(token)
     if (token) {
       setUser(true)
     }
@@ -33,6 +33,7 @@ const App = () => {
         {user 
           ? <>
               <button onClick={() => setPage('add')}>add book</button>
+              <button onClick={() => setPage('recommend')}>recommendations</button>
               <button onClick={logout}>logout</button>
             </>
           : <button onClick={()=> setPage('login')}>login</button>}
@@ -55,6 +56,10 @@ const App = () => {
         show={page === 'login'}
         setUser={setUser}
         setPage={setPage}
+      />
+
+      <Recommend
+        show={page === 'recommend'}
       />
 
     </div>

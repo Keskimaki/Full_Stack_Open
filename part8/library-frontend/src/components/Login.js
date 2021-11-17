@@ -15,9 +15,7 @@ const Login = ( {show, setUser, setPage} ) => {
     const token = response.data.login.value
     setUser(true)
     localStorage.setItem('library-user-token', token)
-    setUsername('')
-    setPassword('')
-    setPage('authors')
+    window.location.reload()
   }
 
   if (!show) {
