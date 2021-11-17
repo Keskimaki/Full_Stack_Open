@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const Author = require('./models/Author')
 const Book = require('./models/Book')
 
-const MONGODB_URI = 'mongodb+srv://kayttaja:nee5ebef@cluster0.dyulp.mongodb.net/library?retryWrites=true&w=majority'
+const MONGODB_URI = 'mongodb+srv://kayttaja:salasana@cluster0.dyulp.mongodb.net/library?retryWrites=true&w=majority'
 
 console.log('connecting to', MONGODB_URI)
 
@@ -82,11 +82,24 @@ const resolvers = {
       let author = await Author.findOne({name: args.author})
       if (!author) {
         author = author = new Author({ name: args.author })
-        await author.save()
+        try {
+          await author.save()
+        } catch (error) {
+          throw new UserInputError(error.message, {
+            invalidArgs: args,
+          })
+        }
       }
       args.author = author._id
       const book = new Book({ ...args })
-      return book.save()
+      try {
+        await book.save()
+      } catch (error) {
+        throw new UserInputError(error.message, {
+          invalidArgs: args,
+        })
+      }
+      return book
     },
     editAuthor: async (root, args) => {
       const author = await Author.findOne({ name: args.name })
@@ -94,7 +107,14 @@ const resolvers = {
         return null
       }
       author.born = args.setBornTo
-      return author.save()
+      try {
+        await author.save()
+      } catch (error) {
+        throw new UserInputError(error.message, {
+          invalidArgs: args,
+        })
+      }
+      return author
     }
   }
 }
