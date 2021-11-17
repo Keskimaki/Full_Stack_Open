@@ -3,7 +3,7 @@ import { useMutation } from "@apollo/client"
 import { UPDATE_AUTHOR, ALL_AUTHORS } from "../queries"
 import Select from 'react-select'
 
-const SetYear = ( {authors} ) => {
+const SetYear = ( {show, authors} ) => {
   const [ select, setSelect ] = useState('')
   const [ born, setBorn ] = useState('')
 
@@ -26,6 +26,10 @@ const SetYear = ( {authors} ) => {
 
     setSelect('')
     setBorn('')
+  }
+
+  if (!show) {
+    return null
   }
 
   return (

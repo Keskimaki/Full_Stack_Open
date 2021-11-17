@@ -5,7 +5,7 @@ import { useMutation } from '@apollo/client'
 const NewBook = (props) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
-  const [published, setPublished] = useState('')
+  const [year, setPublished] = useState('')
   const [genre, setGenre] = useState('')
   const [genres, setGenres] = useState([])
 
@@ -13,7 +13,7 @@ const NewBook = (props) => {
     refetchQueries: [ { query: ALL_BOOKS}, {query: ALL_AUTHORS} ]
   })
 
-  let num
+  let published
 
   if (!props.show) {
     return null
@@ -22,9 +22,9 @@ const NewBook = (props) => {
   const submit = async (event) => {
     event.preventDefault()
     
-    num = Number(published)
+    published = Number(year)
     
-    newBook({ variables: { title, author, num, genres} })
+    newBook({ variables: { title, author, published, genres} })
 
     setTitle('')
     setPublished('')

@@ -33,7 +33,7 @@ const Authors = (props) => {
           )}
         </tbody>
       </table>
-      <SetYear authors={result.data.allAuthors}/>
+      <SetYear show={props.user} authors={result.data.allAuthors}/>
     </div>
   )
 }
