@@ -8,7 +8,7 @@ interface Result {
   average: number;
 }
 
-const calculateExercises = (exercises: Array<number>, target: number): Result => {
+const calculateExercises = (target: number, exercises: Array<number>): Result => {
   const periodLength = exercises.length;
   const average = exercises.reduce((a, b) => a + b) / periodLength;
   const difference = target - average;
@@ -26,7 +26,7 @@ const calculateExercises = (exercises: Array<number>, target: number): Result =>
   }
   return {
     periodLength,
-    trainingDays: exercises.filter(hours => hours !== 0).length,
+    trainingDays: exercises.filter(exercise => exercise !== 0).length,
     success: average >= target, 
     rating,
     ratingDescription,
@@ -35,4 +35,18 @@ const calculateExercises = (exercises: Array<number>, target: number): Result =>
   }
 }
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2));
+const target: number = Number(process.argv[2]);
+let exercises: Array<number> = [];
+for (let i = 3; i < process.argv.length; i++) {
+  exercises = exercises.concat(Number(process.argv[i]));
+}
+
+if (process.argv.length < 4) {
+  throw new Error('Incorrect amount of arguments!');
+}
+
+if (isNaN(target) || exercises.some(exercise => isNaN(exercise))) {
+  throw new Error('Provided values were not numbers!');
+}
+
+console.log(calculateExercises(target, exercises));
