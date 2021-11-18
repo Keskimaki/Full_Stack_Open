@@ -1,5 +1,6 @@
 const calculateBmi = (height: number, weight: number): string => {
   const bmi = weight / ( height / 100 ) ** 2;
+
   if (bmi < 16) {
     return 'Underweight (Severe thinness)';
   } else if (bmi < 16.9) {
@@ -13,21 +14,25 @@ const calculateBmi = (height: number, weight: number): string => {
   } else if (bmi < 34.9) {
     return 'Obese (Class I)';
   } else if (bmi < 39.9) {
-    return 'Obese (Class II';
+    return 'Obese (Class II)';
   } else {
-    return 'Obese (Class III';
+    return 'Obese (Class III)';
   }
 }
 
-const height: number = Number(process.argv[2]);
-const weight: number = Number(process.argv[3]);
+if (require.main === module) {
+  const height: number = Number(process.argv[2]);
+  const weight: number = Number(process.argv[3]);
 
-if (process.argv.length !== 4) {
-  throw new Error('Incorrect amount of arguments!');
+  if (process.argv.length !== 4) {
+    throw new Error('Incorrect amount of arguments!');
+  }
+
+  if (isNaN(height) || isNaN(weight)) {
+    throw new Error('Provided values were not numbers!');
+  }
+
+  console.log(calculateBmi(height, weight));
 }
 
-if (isNaN(height) || isNaN(weight)) {
-  throw new Error('Provided values were not numbers!');
-}
-
-console.log(calculateBmi(height, weight));
+export default calculateBmi;
