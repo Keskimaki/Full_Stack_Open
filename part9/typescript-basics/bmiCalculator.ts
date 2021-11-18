@@ -18,11 +18,11 @@ const calculateBmi = (height: number, weight: number): string => {
   } else {
     return 'Obese (Class III)';
   }
-}
+};
 
 if (require.main === module) {
-  const height: number = Number(process.argv[2]);
-  const weight: number = Number(process.argv[3]);
+  const height = Number(process.argv[2]);
+  const weight = Number(process.argv[3]);
 
   if (process.argv.length !== 4) {
     throw new Error('Incorrect amount of arguments!');

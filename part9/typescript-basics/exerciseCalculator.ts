@@ -32,10 +32,10 @@ const calculateExercises = (target: number, exercises: Array<number>): Result =>
     ratingDescription,
     target,
     average
-  }
-}
+  };
+};
 
-const target: number = Number(process.argv[2]);
+const target = Number(process.argv[2]);
 let exercises: Array<number> = [];
 for (let i = 3; i < process.argv.length; i++) {
   exercises = exercises.concat(Number(process.argv[i]));
