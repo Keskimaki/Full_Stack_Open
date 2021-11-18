@@ -35,18 +35,22 @@ const calculateExercises = (target: number, exercises: Array<number>): Result =>
   };
 };
 
-const target = Number(process.argv[2]);
-let exercises: Array<number> = [];
-for (let i = 3; i < process.argv.length; i++) {
-  exercises = exercises.concat(Number(process.argv[i]));
+if (require.main === module) {
+  const target = Number(process.argv[2]);
+  let exercises: Array<number> = [];
+  for (let i = 3; i < process.argv.length; i++) {
+    exercises = exercises.concat(Number(process.argv[i]));
+  }
+
+  if (process.argv.length < 4) {
+    throw new Error('Incorrect amount of arguments!');
+  }
+
+  if (isNaN(target) || exercises.some(exercise => isNaN(exercise))) {
+    throw new Error('Provided values were not numbers!');
+  }
+
+  console.log(calculateExercises(target, exercises));
 }
 
-if (process.argv.length < 4) {
-  throw new Error('Incorrect amount of arguments!');
-}
-
-if (isNaN(target) || exercises.some(exercise => isNaN(exercise))) {
-  throw new Error('Provided values were not numbers!');
-}
-
-console.log(calculateExercises(target, exercises));
+export default calculateExercises;
