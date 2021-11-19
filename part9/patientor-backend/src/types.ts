@@ -1,10 +1,10 @@
-export interface diagnosis {
+export interface Diagnosis {
   code: string;
   name: string;
   latin?: string;
 }
 
-export interface patient {
+export interface Patient {
   id: string;
   name: string;
   dateOfBirth: string;
