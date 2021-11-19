@@ -3,3 +3,12 @@ export interface diagnosis {
   name: string;
   latin?: string;
 }
+
+export interface patient {
+  id: string;
+  name: string;
+  dateOfBirth: string;
+  ssn: string;
+  gender: string;
+  occupation: string;
+}
