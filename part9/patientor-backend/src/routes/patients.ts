@@ -18,7 +18,7 @@ patientRouter.get('/:id', (req, res) => {
 
 patientRouter.post('/', (req, res) => {
   try {
-    if (!req.body.entries) {
+    if (!Array.isArray(req.body.entries)) {
       req.body.entries = [];
     }
     const newPatient = toNewPatient(req.body);

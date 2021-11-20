@@ -34,18 +34,19 @@ const parseGender = (gender: unknown): Gender => {
   return gender;
 };
 
-const isEntries = (entries: unknown): entries is Array<Entry> => {
-  return Array.isArray(entries);
+const isEntries = (entries: Array<any>): entries is Array<Entry> => {
+  const entryTypes = ['HealthCheck', 'Hospital', 'OccupationalHealthCare'];
+  return !entries.some((entry) => !entryTypes.includes(entry.type));
 };
 
-const parseEntries = (entries: unknown): Array<Entry> => {
+const parseEntries = (entries: Array<unknown>): Array<Entry> => {
   if (!entries || !isEntries(entries)) {
     throw new Error('Incorrect or missing entries');
   }
   return entries;
 };
 
-type Fields = { name: unknown, dateOfBirth: unknown, ssn: unknown, gender: unknown, occupation: unknown, entries: unknown};
+type Fields = { name: unknown, dateOfBirth: unknown, ssn: unknown, gender: unknown, occupation: unknown, entries: Array<unknown>};
 
 const toNewPatient = ({ name, dateOfBirth, ssn, gender, occupation, entries }: Fields): Omit<Patient, 'id'> => {
   const newPatient: Omit<Patient, 'id'> = {
