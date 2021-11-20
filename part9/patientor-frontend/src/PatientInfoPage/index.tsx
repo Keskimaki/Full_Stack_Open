@@ -3,7 +3,7 @@ import axios from "axios";
 import { useParams } from "react-router";
 import { useStateValue } from "../state";
 import { apiBaseUrl } from "../constants";
-import { Patient } from "../types";
+import { Patient, Diagnosis, Entry, HospitalEntry, OccupationalHealthcareEntry, HealthCheckEntry } from "../types";
 import { updatePatient } from "../state";
 import { Icon } from "semantic-ui-react";
 
@@ -38,21 +38,90 @@ const PatientInfoPage = () => {
       <br />
       occupation: {patient.occupation}
       <h3>entries</h3>
-      {patient.entries.map(entry => (
-        <div key={entry.id}>
-          {entry.date} {entry.description}
-          <ul>
-            {entry.diagnosisCodes?.map(code => (
-              <li key={code}>
-                {code} {diagnoses[code].name}
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
+      <Entries entries={patient.entries} diagnoses={diagnoses} />
     </div>
   );
 };
 
+
+const Entries = ({ entries, diagnoses }: { entries: Entry[], diagnoses: { [code: string]: Diagnosis } }) => {
+  return (
+    <div>
+      {entries.map(entry => 
+        <EntryDetails key={entry.id} entry={entry} diagnoses={diagnoses} />  
+      )}
+    </div>
+  );
+};
+
+const assertNever = (value: never): never => {
+  throw new Error(
+    `Unhandled discriminated union member: ${JSON.stringify(value)}`
+  );
+};
+
+const EntryDetails = ({ entry, diagnoses }: { entry: Entry, diagnoses: { [code: string]: Diagnosis } }) => {
+  switch (entry.type) {
+    case 'Hospital':
+      return <HospitalEntryDetails entry={entry} diagnoses={diagnoses} />;
+    case 'OccupationalHealthcare':
+      return <OccupationalHealthcareEntryDetails entry={entry} diagnoses={diagnoses} />;
+    case 'HealthCheck':
+      return <HealthCheckEntryDetails entry={entry} diagnoses={diagnoses} />;
+    default:
+      return assertNever(entry);
+  }
+};
+
+const HospitalEntryDetails = ({ entry, diagnoses }: { entry: HospitalEntry, diagnoses: { [code: string]: Diagnosis } }) => {
+  return (
+    <div >
+      <h3>{entry.date} <Icon name="hospital" /> </h3>
+      {entry.description}
+      <ul>
+        {entry.diagnosisCodes?.map(code => (
+          <li key={code}>
+            {code} {diagnoses[code].name}
+          </li>
+        ))}
+      </ul>
+      Discharge: {entry.discharge.date}, provided {entry.discharge.criteria}
+    </div>
+  );
+};
+
+const OccupationalHealthcareEntryDetails = ({ entry, diagnoses }: { entry: OccupationalHealthcareEntry, diagnoses: { [code: string]: Diagnosis } }) => {
+  return (
+    <div >
+      <h3>{entry.date} <Icon name="stethoscope" /> {entry.employerName} </h3>
+      {entry.description}
+      <ul>
+        {entry.diagnosisCodes?.map(code => (
+          <li key={code}>
+            {code} {diagnoses[code].name}
+          </li>
+        ))}
+      </ul>
+      {entry.sickLeave ? <>Sick leave between {entry.sickLeave?.startDate} – {entry.sickLeave?.endDate}.</> : null}
+    </div>
+  );
+};
+
+const HealthCheckEntryDetails = ({ entry, diagnoses }: { entry: HealthCheckEntry, diagnoses: { [code: string]: Diagnosis } }) => {
+  return (
+    <div >
+      <h3>{entry.date} <Icon name="doctor" /> </h3> 
+      {entry.description} <br />
+      <Icon name="heart" /> {['Healthy', 'LowRisk', 'HighRisk', 'CriticalRisk'][entry.healthCheckRating]}
+      <ul>
+        {entry.diagnosisCodes?.map(code => (
+          <li key={code}>
+            {code} {diagnoses[code].name}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 
 export default PatientInfoPage;
