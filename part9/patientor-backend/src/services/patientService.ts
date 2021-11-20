@@ -3,12 +3,13 @@ import { Patient } from "../types";
 import {v1 as uuid} from 'uuid';
 
 const getPatients = (): Omit<Patient, 'ssn'>[] => {
-  return patients.map(({ id, name, dateOfBirth, gender, occupation }) => ({
+  return patients.map(({ id, name, dateOfBirth, gender, occupation, entries }) => ({
     id,
     name,
     dateOfBirth,
     gender,
-    occupation
+    occupation,
+    entries
   }));
 };
 
@@ -18,6 +19,10 @@ const addPatient = (newPatient: Omit<Patient, 'id'>): Patient => {
   return updatedPatient;
 };
 
-const patientService = { getPatients, addPatient };
+const getPatientbyId = (id: string): Patient | undefined => {
+  return patients.find(patient => patient.id === id);
+};
+
+const patientService = { getPatients, addPatient, getPatientbyId };
 
 export default patientService;

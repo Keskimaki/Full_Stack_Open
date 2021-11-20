@@ -8,6 +8,14 @@ patientRouter.get('/', (_req, res) => {
   res.send(patientService.getPatients());
 });
 
+patientRouter.get('/:id', (req, res) => {
+  const patient = patientService.getPatientbyId(req.params.id);
+  if (!patient) {
+    res.status(404).send('Patient not found.');
+  }
+  res.json(patient);
+});
+
 patientRouter.post('/', (req, res) => {
   try {
     const newPatient = toNewPatient(req.body);
