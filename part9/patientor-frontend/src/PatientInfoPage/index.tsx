@@ -8,7 +8,7 @@ import { updatePatient } from "../state";
 import { Icon } from "semantic-ui-react";
 
 const PatientInfoPage = () => {
-  const [{ patients }, dispatch] = useStateValue();
+  const [{ patients, diagnoses }, dispatch] = useStateValue();
   const [ready, setReady] = useState(false);
 
   const { id } = useParams<{ id: string }>();
@@ -25,7 +25,7 @@ const PatientInfoPage = () => {
     void getPatient();
   }, []);
 
-  if (!ready) {
+  if (!ready || Object.keys(diagnoses).length === 0) {
     return <div>loading...</div>;
   }  
 
@@ -43,7 +43,9 @@ const PatientInfoPage = () => {
           {entry.date} {entry.description}
           <ul>
             {entry.diagnosisCodes?.map(code => (
-              <li key={code}>{code}</li>
+              <li key={code}>
+                {code} {diagnoses[code].name}
+              </li>
             ))}
           </ul>
         </div>
