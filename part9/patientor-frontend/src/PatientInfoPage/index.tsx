@@ -1,13 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router";
 import { useStateValue } from "../state";
 import { apiBaseUrl } from "../constants";
 import { Patient } from "../types";
+import { updatePatient } from "../state";
 import { Icon } from "semantic-ui-react";
 
 const PatientInfoPage = () => {
   const [{ patients }, dispatch] = useStateValue();
+  const [ready, setReady] = useState(false);
 
   const { id } = useParams<{ id: string }>();
 
@@ -17,16 +19,18 @@ const PatientInfoPage = () => {
       if (!patient) {
         return;
       }
-      dispatch({ type: "UPDATE_PATIENT", payload: patient });
+      dispatch(updatePatient(patient));
+      setReady(true);
     };
     void getPatient();
   }, []);
 
-  const patient = patients[id];
-
-  if (!patient) {
+  if (!ready) {
     return <div>loading...</div>;
   }  
+
+  const patient = patients[id];
+  
   return (
     <div>
       <h2>{patient.name} {patient.gender === 'male' ? <Icon name="mars" /> : patient.gender === 'female' ? <Icon name="venus" /> : <Icon name="genderless" />}</h2>
