@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Patient, Gender, Entry } from "./types";
 
 const isString = (text: unknown): text is string => {
@@ -22,7 +24,6 @@ const parseDate = (date: unknown): string => {
   return date;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const isGender = (param: any): param is Gender => {
   return Object.values(Gender).includes(param);
 };

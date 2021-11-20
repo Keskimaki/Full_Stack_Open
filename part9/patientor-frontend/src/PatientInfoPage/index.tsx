@@ -30,15 +30,27 @@ const PatientInfoPage = () => {
   }  
 
   const patient = patients[id];
-  
+
   return (
     <div>
       <h2>{patient.name} {patient.gender === 'male' ? <Icon name="mars" /> : patient.gender === 'female' ? <Icon name="venus" /> : <Icon name="genderless" />}</h2>
       ssn: {patient.ssn}
       <br />
       occupation: {patient.occupation}
+      <h3>entries</h3>
+      {patient.entries.map(entry => (
+        <div key={entry.id}>
+          {entry.date} {entry.description}
+          <ul>
+            {entry.diagnosisCodes?.map(code => (
+              <li key={code}>{code}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
     </div>
   );
 };
+
 
 export default PatientInfoPage;
