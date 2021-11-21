@@ -49,7 +49,7 @@ const parseEntries = (entries: Array<unknown>): Array<Entry> => {
 
 type Fields = { name: unknown, dateOfBirth: unknown, ssn: unknown, gender: unknown, occupation: unknown, entries: Array<unknown>};
 
-const toNewPatient = ({ name, dateOfBirth, ssn, gender, occupation, entries }: Fields): Omit<Patient, 'id'> => {
+export const toNewPatient = ({ name, dateOfBirth, ssn, gender, occupation, entries }: Fields): Omit<Patient, 'id'> => {
   const newPatient: Omit<Patient, 'id'> = {
     name: parseString(name),
     dateOfBirth: parseDate(dateOfBirth),
@@ -61,4 +61,35 @@ const toNewPatient = ({ name, dateOfBirth, ssn, gender, occupation, entries }: F
   return newPatient;
 };
 
-export default toNewPatient;
+const checkEntry = (entry: any): entry is Entry => {
+  switch (entry.type) {
+    case 'Hospital':
+      if (!entry.discharge) {
+        throw new Error('Missing field: discharge');
+      }
+      break;
+    case 'OccupationalHealth':
+      if (!entry.employerName) {
+        throw new Error('Missing field: employer name');
+      }
+      break;
+    case 'HealthCheck':
+      if (!entry.healthCheckRating) {
+        throw new Error('Missing field: healthcheck rating');
+      }
+      break;
+    default:
+      throw new Error('Incorrect field: type');
+  }
+  return true;
+};
+
+export const toNewEntry = (entry: any): Entry => {
+  if (!entry.type || !entry.description || !entry.date || !entry.specialist) {
+    throw new Error('Missing fields');
+  }
+  if (!checkEntry(entry)) {
+    throw new Error('Incorrect entry');
+  }
+  return entry;
+};
