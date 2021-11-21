@@ -50,9 +50,7 @@ export const reducer = (state: State, action: Action): State => {
           ...action.payload.reduce(
             (memo, diagnosis) => ({ ...memo, [diagnosis.code]: diagnosis }),
             {}
-          ),
-          ...state.patients
-        }
+          )}
       };
     default:
       return state;

@@ -6,6 +6,7 @@ import { apiBaseUrl } from "../constants";
 import { Patient, Diagnosis, Entry, HospitalEntry, OccupationalHealthcareEntry, HealthCheckEntry } from "../types";
 import { updatePatient } from "../state";
 import { Icon } from "semantic-ui-react";
+import AddEntry from "../AddEntry";
 
 const PatientInfoPage = () => {
   const [{ patients, diagnoses }, dispatch] = useStateValue();
@@ -39,6 +40,7 @@ const PatientInfoPage = () => {
       occupation: {patient.occupation}
       <h3>entries</h3>
       <Entries entries={patient.entries} diagnoses={diagnoses} />
+      <AddEntry patientId={id}/>
     </div>
   );
 };
@@ -80,7 +82,7 @@ const HospitalEntryDetails = ({ entry, diagnoses }: { entry: HospitalEntry, diag
       {entry.description}
       <ul>
         {entry.diagnosisCodes?.map(code => (
-          <li key={code}>
+          <li key={Math.random()}>
             {code} {diagnoses[code].name}
           </li>
         ))}
