@@ -1,0 +1,20 @@
+version: '3.8' 
+services:
+  frontend:
+    image: my-app-frontend
+    build:
+      context: ./frontend
+      dockerfile: dev.Dockerfile
+    volumes: 
+      - ./frontend:/usr/src/app
+    ports:
+      - 3000:3000
+  backend:
+    image: my-app-backend
+    build:
+      context: ./backend
+      dockerfile: dev.Dockerfile
+    volumes: 
+      - ./backend:/usr/scr/app
+    ports:
+      - 3003:3003
